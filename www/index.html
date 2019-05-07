@@ -29,7 +29,7 @@
       margin: 20px auto;
     }
     .section {
-      margin: 40px auto;
+      margin: 30px auto;
     }
     .section:last-of-type {
       margin-bottom: 0;
@@ -54,6 +54,7 @@
         <li><strong>Multi-User Chat (MUC)</strong>: <code>room.{domain}</code></li>
         <li><strong>Admin</strong>: <code>{admin_jid}</code></li>
         <li><strong>Users</strong>: <code id="online-users"></code> online, <code id="total-users"></code> total</li>
+        <li>Powered by <a href="https://prosody.im">Prosody</a></li>
       </ul>
     </div>
 
@@ -73,6 +74,11 @@
         <li><strong>Web</strong>: <a href="https://{domain}/web/">Enter</a></li>
         <li>...more can be find <a href="https://xmpp.org/software/clients.html">here</a></li>
       </ul>
+    </div>
+
+    <div class="section">
+      <h2>Host your own XMPP server</h2>
+      <p>For improved security and privacy concern, you're encouraged to host your own XMPP server. You can follow the documentation of <a href="https://prosody.im/doc">Prosody</a>, or use our open-sourced all-in-one <a href="https://github.com/ichuan/prosody">prosody docker</a></p>
     </div>
 
     <div id="footer">
