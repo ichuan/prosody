@@ -1,8 +1,8 @@
 #!/bin/bash
 
 make_stats () {
-  total_users=$(echo -e "user:list(\"$DOMAIN\")\nbye\n" | nc localhost 5582 | sed '/Showing all/!d' | grep -o --color=never '[0-9]*')
-  online_users=$(echo -e "c2s:show()\nbye\n" | nc localhost 5582 | sed "/@$DOMAIN/!d" | awk -F / '{print $1}' | sort | uniq | wc -l)
+  total_users=$(echo -e "user:list(\"$DOMAIN\")\nbye\n" | nc -w 5 localhost 5582 | sed '/Showing all/!d' | grep -o --color=never '[0-9]*')
+  online_users=$(echo -e "c2s:show()\nbye\n" | nc -w 5 localhost 5582 | sed "/@$DOMAIN/!d" | awk -F / '{print $1}' | sort | uniq | wc -l)
 
   cat << EOF > /www/stats.json
   {
