@@ -280,7 +280,6 @@ Component "room.{domain}" "muc"
   modules_enabled = {
     "muc_mam",
     "muc_limits",
-    "vcard_muc",
   }
 
 Component "proxy.{domain}" "proxy65"
