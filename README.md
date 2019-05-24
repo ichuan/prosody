@@ -71,7 +71,7 @@ docker run --rm -itd --name iprosody \
   -p 5000:5000 -p 5222:5222 -p 5269:5269 \
   -v $PWD/prosody:/var/lib/prosody \
   -v $PWD/letsencrypt:/etc/letsencrypt \
-  -e ADMIN_JID=$JID -e DOMAIN=$DOMAIN -e CONTACT_EMAIL=$EMAIL SINCE=$SINCE \
+  -e ADMIN_JID=$JID -e DOMAIN=$DOMAIN -e CONTACT_EMAIL=$EMAIL -e SINCE=$SINCE \
   -e RECAPTCHA_PRIVATE=$RECAPTCHA_PRIVATE \
   -e RECAPTCHA_PUBLIC=$RECAPTCHA_PUBLIC \
   ichuan/prosody

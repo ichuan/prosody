@@ -194,7 +194,7 @@ archive_expires_after = "1w" -- Remove archived messages after 1 week
 -- Logging configuration
 -- For advanced logging see https://prosody.im/doc/logging
 log = {
-  info = "*console";
+  {levels = {min = "info"}, to = "console"};
 }
 
 -- Uncomment to enable statistics
@@ -280,6 +280,7 @@ Component "room.{domain}" "muc"
   modules_enabled = {
     "muc_mam",
     "muc_limits",
+    "vcard_muc",
   }
 
 Component "proxy.{domain}" "proxy65"
