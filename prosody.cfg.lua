@@ -73,7 +73,7 @@ modules_enabled = {
 		"limits"; -- Enable bandwidth limiting for XMPP connections
 		--"groups"; -- Shared roster support
 		"server_contact_info"; -- Publish contact information for this service
-		--"announce"; -- Send announcement to all online users
+		"announce"; -- Send announcement to all online users
 		"welcome"; -- Welcome users who register accounts
 		"watchregistrations"; -- Alert admins of registrations
 		--"motd"; -- Send a message to users when they log in
