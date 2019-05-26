@@ -67,7 +67,7 @@ mkdir prosody
 SINCE="2018/9/2"
 
 docker run --rm -itd --name iprosody \
-  -p 5223:5223 -p 5280:5280 -p 443:5281 \
+  -p 5223:5223 -p 5280:5280 -p 443:5281 -p 5281:5281 \
   -p 5000:5000 -p 5222:5222 -p 5269:5269 \
   -v $PWD/prosody:/var/lib/prosody \
   -v $PWD/letsencrypt:/etc/letsencrypt \
