@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -12,7 +13,7 @@
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
       font-size: 14px;
       line-height: 1.5;
-      padding: 20px;
+      padding: 0 10px;
     }
     #container {
       margin: 0 auto;
@@ -58,6 +59,20 @@
       </ul>
     </div>
 
+    <script>
+      (function () {
+        var $ = function(id) { return document.getElementById(id) }
+          , req = new XMLHttpRequest();
+        req.addEventListener('load', function () {
+          var stats = JSON.parse(req.responseText);
+          $('online-users').innerHTML = stats.online_users;
+          $('total-users').innerHTML = stats.total_users;
+        });
+        req.open('GET', '/stats.json');
+        req.send();
+      })();
+    </script>
+
     <div class="section">
       <h2>Register</h2>
       <p>Either register within a client, or <a href="https://{domain}/register">register here</a></p>
@@ -83,24 +98,11 @@
 
     <div id="footer">
       <p>
-        <a href='https://xmpp.net/result.php?domain={domain}&amp;type=client'><img src='https://xmpp.net/badge.php?domain={domain}' alt='xmpp.net score' /></a>
+        <a href="https://xmpp.net/result.php?domain={domain}&amp;type=client"><img src="https://xmpp.net/badge.php?domain={domain}" alt="xmpp.net score" /></a>
         <br />
-        <a href='https://compliance.conversations.im/server/{domain}'><img src='https://compliance.conversations.im/badge/{domain}'></a>
+        <a href="https://compliance.conversations.im/server/{domain}"><img src="https://compliance.conversations.im/badge/{domain}" alt="xmpp compliance"></a>
       </p>
     </div>
   </div>
-  <script>
-    (function () {
-      var $ = function(id) { return document.getElementById(id) }
-        , req = new XMLHttpRequest();
-      req.addEventListener('load', function () {
-        var stats = JSON.parse(req.responseText);
-        $('online-users').innerHTML = stats.online_users;
-        $('total-users').innerHTML = stats.total_users;
-      });
-      req.open('GET', '/stats.json');
-      req.send();
-    })();
-  </script>
 </body>
 </html>
