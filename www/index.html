@@ -54,7 +54,7 @@
         <li><strong>Port</strong>: <code>5222</code> <small>(Requires TLS Encryption)</small></li>
         <li><strong>Multi-User Chat (MUC)</strong>: <code>room.{domain}</code></li>
         <li><strong>Admin</strong>: <code>{admin_jid}</code></li>
-        <li><strong>Users</strong>: <code id="online-users"></code> online, <code id="total-users"></code> total</li>
+        <li><strong>Users</strong>: <code id="online-users"></code> online (<code id="c2s-connections"></code> conns), <code id="total-users"></code> total</li>
         <li>Powered by <a href="https://prosody.im">Prosody</a></li>
       </ul>
     </div>
@@ -67,6 +67,7 @@
           var stats = JSON.parse(req.responseText);
           $('online-users').innerHTML = stats.online_users;
           $('total-users').innerHTML = stats.total_users;
+          $('c2s-connections').innerHTML = stats.c2s_connections;
         });
         req.open('GET', '/stats.json');
         req.send();
