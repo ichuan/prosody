@@ -66,7 +66,7 @@ mkdir prosody
 # datetime when this server goes live
 SINCE="2018/9/2"
 
-docker run --rm -itd --name iprosody \
+docker run --restart unless-stopped -itd --name iprosody \
   -p 5223:5223 -p 5280:5280 -p 443:5281 -p 5281:5281 \
   -p 5000:5000 -p 5222:5222 -p 5269:5269 \
   -v $PWD/prosody:/var/lib/prosody \
@@ -85,4 +85,14 @@ Now, head to https://*DOMAIN* to see it.
 # Create your admin JID
 docker exec -it iprosody prosodyctl adduser $JID
 # or via web: https://${DOMAIN}/register
+```
+
+
+## 6. Upgrading
+
+```sh
+docker pull ichuan/prosody
+docker stop iprosody && docker rm iprosody
+# re-run with previous command line
+docker run --restart unless-stopped ...
 ```
