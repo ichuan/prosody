@@ -276,6 +276,7 @@ VirtualHost "{domain}"
 Component "room.{domain}" "muc"
   name = "{domain} Chatrooms"
   muc_tombstones = true
+  muc_log_expires_after = "1w"
   modules_enabled = {
     "muc_mam",
     "muc_limits",
