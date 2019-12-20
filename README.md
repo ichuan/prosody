@@ -42,19 +42,15 @@ _xmpp-server._tcp.DOMAIN.	1	IN	SRV	0 5 5269 DOMAIN.
 ## 3. Obtain domain SSL certs
 
 ```sh
-mkdir -p letsencrypt
-docker run -it --rm --name certbot -v `pwd`/letsencrypt:/etc/letsencrypt \
-  -p 80:80 certbot/certbot certonly --agree-tos --email $EMAIL \
-  -d $DOMAIN -d room.$DOMAIN -d proxy.$DOMAIN --standalone -n
+mkdir -p acme.sh
+docker volume create --driver local --opt type=none --opt device=$PWD/acme.sh \
+  --opt o=bind acme.sh
+docker run -it --rm --name acme.sh -p 80:80 -v acme.sh:/root/.acme.sh ichuan/prosody \
+  /root/.acme.sh/acme.sh --home /root/.acme.sh --issue --standalone \
+  -d $DOMAIN -d room.$DOMAIN -d proxy.$DOMAIN
 ```
 
-For updating those certs automatically, put this command to daily cron:
-
-```sh
-# replace /path/to/letsencrypt with previous absolute path
-docker run -it --rm --name certbot -v /path/to/letsencrypt:/etc/letsencrypt \
-  -p 80:80 certbot/certbot renew --standalone -n
-```
+Certs will be renewed automatically.
 
 ## 4. Running
 
@@ -66,11 +62,11 @@ mkdir prosody
 # datetime when this server goes live
 SINCE="2018/9/2"
 
-docker run --restart unless-stopped -itd --name iprosody \
-  -p 5223:5223 -p 5280:5280 -p 443:5281 -p 5281:5281 \
+docker run --restart always -itd --name iprosody \
+  -p 5223:5223 -p 80:5280 -p 5280:5280 -p 443:5281 -p 5281:5281 \
   -p 5000:5000 -p 5222:5222 -p 5269:5269 \
   -v $PWD/prosody:/var/lib/prosody \
-  -v $PWD/letsencrypt:/etc/letsencrypt \
+  -v acme.sh:/root/.acme.sh \
   -e ADMIN_JID=$JID -e DOMAIN=$DOMAIN -e CONTACT_EMAIL=$EMAIL -e SINCE=$SINCE \
   -e RECAPTCHA_PRIVATE=$RECAPTCHA_PRIVATE \
   -e RECAPTCHA_PUBLIC=$RECAPTCHA_PUBLIC \
@@ -94,5 +90,5 @@ docker exec -it iprosody prosodyctl adduser $JID
 docker pull ichuan/prosody
 docker stop iprosody && docker rm iprosody
 # re-run with previous command line
-docker run --restart unless-stopped ...
+docker run --restart always ...
 ```

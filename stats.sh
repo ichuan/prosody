@@ -15,10 +15,4 @@ make_stats () {
 EOF
 }
 
-# wait for prosody server to start
-sleep 5
-
-while true; do
-  make_stats
-  sleep 1m
-done
+make_stats
