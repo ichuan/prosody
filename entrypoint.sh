@@ -11,7 +11,7 @@ if test $# -eq 0; then
     export $i
   done
   # cron
-  printenv | grep -v no_proxy >> /etc/environment
+  printenv | grep -v no_proxy > /etc/environment
   /etc/init.d/cron start
   # db
   chown -R prosody:prosody /var/lib/prosody
@@ -25,7 +25,7 @@ if test $# -eq 0; then
     /etc/prosody/prosody.cfg.lua
   # cert
   /import_certs.sh
-  (crontab -l; echo "0 1 * * * /import_certs.sh") | crontab -
+  (crontab -l | grep -v import_certs.sh; echo "0 1 * * * /import_certs.sh") | crontab -
   for sub in room proxy; do
     [ ! -f "/etc/prosody/certs/${sub}.${DOMAIN}.crt" ] && {
       ln -s "/etc/prosody/certs/${DOMAIN}.crt" "/etc/prosody/certs/${sub}.${DOMAIN}.crt"
@@ -36,7 +36,7 @@ if test $# -eq 0; then
   sed -i -e "s#{domain}#$DOMAIN#g" -e "s#{admin_jid}#${ADMIN_JID}#g" \
       -e "s#{since}#$SINCE#g" /www/index.html
   # stats
-  (crontab -l; echo "* * * * * /stats.sh") | crontab -
+  (crontab -l | grep -v stats.sh; echo "* * * * * /stats.sh") | crontab -
   # limits
   sysctl fs.file-max=6553560 2>/dev/null
   [ -f /etc/systemd/system.conf ] && sed -i "s/^#DefaultLimitNOFILE=.*/DefaultLimitNOFILE=500000/g" /etc/systemd/system.conf
