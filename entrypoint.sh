@@ -32,6 +32,8 @@ if test $# -eq 0; then
       ln -s "/etc/prosody/certs/${DOMAIN}.key" "/etc/prosody/certs/${sub}.${DOMAIN}.key"
     }
   done
+  # change acme.sh from standalone mode to webroot mode
+  sed -i -e "s#Le_Webroot='no'#Le_Webroot='/www'#g" /root/.acme.sh/${DOMAIN}/${DOMAIN}.conf
   # www
   sed -i -e "s#{domain}#$DOMAIN#g" -e "s#{admin_jid}#${ADMIN_JID}#g" \
       -e "s#{since}#$SINCE#g" /www/index.html
