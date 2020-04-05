@@ -58,7 +58,6 @@ modules_enabled = {
 		"ping"; -- Replies to XMPP pings with pongs
 		"register"; -- Allow users to register on this server using a client and change passwords
 		"mam"; -- Store messages in an archive and allow users to access it
-    "mam_archive";
 
 	-- Admin interfaces
 		"admin_adhoc"; -- Allows administration via an XMPP client that supports ad-hoc commands
