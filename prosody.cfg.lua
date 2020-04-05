@@ -58,6 +58,7 @@ modules_enabled = {
 		"ping"; -- Replies to XMPP pings with pongs
 		"register"; -- Allow users to register on this server using a client and change passwords
 		"mam"; -- Store messages in an archive and allow users to access it
+		"csi_simple"; -- Simple Mobile optimizations
 
 	-- Admin interfaces
 		"admin_adhoc"; -- Allows administration via an XMPP client that supports ad-hoc commands
@@ -70,17 +71,13 @@ modules_enabled = {
 
 	-- Other specific functionality
 		"limits"; -- Enable bandwidth limiting for XMPP connections
-		--"groups"; -- Shared roster support
 		"server_contact_info"; -- Publish contact information for this service
 		"announce"; -- Send announcement to all online users
 		"welcome"; -- Welcome users who register accounts
 		"watchregistrations"; -- Alert admins of registrations
-		--"motd"; -- Send a message to users when they log in
-		"legacyauth"; -- Legacy authentication. Only used by some old clients and bots.
+		"proxy65"; -- Enables a file transfer proxy service which clients behind NAT can use
 
   -- Custom
-    "uptime_presence";
-    "idlecompat";
     "cloud_notify";
     "smacks";
     "http_upload";
@@ -95,7 +92,6 @@ modules_enabled = {
     "listusers";
     "bookmarks";
     "block_registrations";
-    "posix";
 }
 
 -- These modules are auto-loaded, but should you want
@@ -274,6 +270,10 @@ VirtualHost "{domain}"
 ---Set up a MUC (multi-user chat) room server on conference.example.com:
 Component "room.{domain}" "muc"
   name = "{domain} Chatrooms"
+  muc_log_by_default = true
+  muc_log_presences = false
+  log_all_rooms = false
+  muc_log_cleanup_interval = 4 * 60 * 60
   muc_tombstones = true
   muc_log_expires_after = "1w"
   modules_enabled = {
