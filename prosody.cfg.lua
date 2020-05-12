@@ -121,7 +121,7 @@ c2s_require_encryption = true
 -- prevent servers from authenticating unless they are using encryption.
 -- Note that this is different from authentication
 
-s2s_require_encryption = true
+s2s_require_encryption = false
 
 
 -- Force certificate authentication for server-to-server connections?
@@ -137,7 +137,7 @@ s2s_secure_auth = true
 -- certificates. They will be authenticated using DNS instead, even
 -- when s2s_secure_auth is enabled.
 
-s2s_insecure_domains = { "gmail.com" }
+s2s_insecure_domains = { "gmail.com", "im.rmilk.com" }
 
 -- Even if you leave s2s_secure_auth disabled, you can still require valid
 -- certificates for some domains by specifying a list here.
