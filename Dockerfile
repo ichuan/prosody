@@ -1,9 +1,7 @@
 
 # https://prosody.im/download
 
-FROM debian:stretch
-# legacy_ssl, http, https, proxy65, c2s, s2s
-EXPOSE 5223 5280 5281 5000 5222 5269
+FROM debian:9
 
 RUN apt update && apt install -y wget gnupg mercurial netcat cron socat
 RUN echo deb http://packages.prosody.im/debian stretch main | tee -a /etc/apt/sources.list
