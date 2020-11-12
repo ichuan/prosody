@@ -14,7 +14,7 @@ jabber server.
 # You need a domain
 DOMAIN=yourdomain.com
 # Your jabber account on that server, will be created as admin.
-JID="yourname@${DOMAIN}""
+JID="yourname@${DOMAIN}"
 # recaptcha keys
 RECAPTCHA_PRIVATE=xxx
 RECAPTCHA_PUBLIC=yyy
