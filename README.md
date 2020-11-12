@@ -14,9 +14,7 @@ jabber server.
 # You need a domain
 DOMAIN=yourdomain.com
 # Your jabber account on that server, will be created as admin.
-JID=yourname@yourdomain.com
-# Your contact email
-EMAIL=your@email.com
+JID="yourname@${DOMAIN}""
 # recaptcha keys
 RECAPTCHA_PRIVATE=xxx
 RECAPTCHA_PUBLIC=yyy
@@ -30,7 +28,6 @@ replace *DOMAIN* with your real domain name):
 ```zone
 ;; A Records
 DOMAIN.	1	IN	A	1.2.3.4
-proxy.DOMAIN.	1	IN	A	1.2.3.4
 room.DOMAIN.	1	IN	A	1.2.3.4
 
 ;; SRV Records
@@ -43,11 +40,9 @@ _xmpp-server._tcp.DOMAIN.	1	IN	SRV	0 5 5269 DOMAIN.
 
 ```sh
 mkdir -p acme.sh
-docker volume create --driver local --opt type=none --opt device=$PWD/acme.sh \
-  --opt o=bind acme.sh
+docker volume create --driver local --opt type=none --opt device=$PWD/acme.sh --opt o=bind acme.sh
 docker run -it --rm --name acme.sh -p 80:80 -v acme.sh:/root/.acme.sh ichuan/prosody \
-  /root/.acme.sh/acme.sh --home /root/.acme.sh --issue --standalone \
-  -d $DOMAIN -d room.$DOMAIN -d proxy.$DOMAIN
+  /root/.acme.sh/acme.sh --home /root/.acme.sh --issue --standalone -d $DOMAIN
 ```
 
 Certs will be renewed automatically.
@@ -68,7 +63,7 @@ docker run --restart always -itd --name iprosody \
   -p 5000:5000 -p 5222:5222 -p 5269:5269 \
   -v $PWD/prosody:/var/lib/prosody \
   -v acme.sh:/root/.acme.sh \
-  -e ADMIN_JID=$JID -e DOMAIN=$DOMAIN -e CONTACT_EMAIL=$EMAIL -e SINCE=$SINCE \
+  -e ADMIN_JID=$JID -e DOMAIN=$DOMAIN -e SINCE=$SINCE \
   -e RECAPTCHA_PRIVATE=$RECAPTCHA_PRIVATE \
   -e RECAPTCHA_PUBLIC=$RECAPTCHA_PUBLIC \
   ichuan/prosody

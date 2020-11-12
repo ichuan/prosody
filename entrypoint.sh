@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-envs=(ADMIN_JID DOMAIN CONTACT_EMAIL RECAPTCHA_PRIVATE RECAPTCHA_PUBLIC)
+envs=(ADMIN_JID DOMAIN RECAPTCHA_PRIVATE RECAPTCHA_PUBLIC)
 
 if test $# -eq 0; then
   for i in ${envs[@]}; do
@@ -19,19 +19,12 @@ if test $# -eq 0; then
   # prosody.cfg.lua
   sed -i -e "s#{domain}#$DOMAIN#g" \
     -e "s#{admin_jid}#${ADMIN_JID}#g" \
-    -e "s#{contact_email}#$CONTACT_EMAIL#g" \
     -e "s#{recaptcha_private}#${RECAPTCHA_PRIVATE}#g" \
     -e "s#{recaptcha_public}#${RECAPTCHA_PUBLIC}#g" \
     /etc/prosody/prosody.cfg.lua
   # cert
   /import_certs.sh
   (crontab -l | grep -v import_certs.sh; echo "0 1 * * * /import_certs.sh") | crontab -
-  for sub in room proxy; do
-    [ ! -f "/etc/prosody/certs/${sub}.${DOMAIN}.crt" ] && {
-      ln -s "/etc/prosody/certs/${DOMAIN}.crt" "/etc/prosody/certs/${sub}.${DOMAIN}.crt"
-      ln -s "/etc/prosody/certs/${DOMAIN}.key" "/etc/prosody/certs/${sub}.${DOMAIN}.key"
-    }
-  done
   # change acme.sh from standalone mode to webroot mode
   sed -i -e "s#Le_Webroot='no'#Le_Webroot='/www'#g" /root/.acme.sh/${DOMAIN}/${DOMAIN}.conf
   # www

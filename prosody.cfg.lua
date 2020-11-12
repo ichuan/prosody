@@ -70,10 +70,10 @@ modules_enabled = {
 		"http_files"; -- Serve static files from a directory over HTTP
 
 	-- Other specific functionality
-		"limits"; -- Enable bandwidth limiting for XMPP connections
-		"server_contact_info"; -- Publish contact information for this service
+		--"limits"; -- Enable bandwidth limiting for XMPP connections
+		--"server_contact_info"; -- Publish contact information for this service
 		"announce"; -- Send announcement to all online users
-		"welcome"; -- Welcome users who register accounts
+		--"welcome"; -- Welcome users who register accounts
 		"watchregistrations"; -- Alert admins of registrations
 		"proxy65"; -- Enables a file transfer proxy service which clients behind NAT can use
 
@@ -81,11 +81,8 @@ modules_enabled = {
     "cloud_notify";
     "smacks";
     "http_upload";
-    "csi";
     "throttle_presence";
     "filter_chatstates";
-    "privacy_lists";
-    "http";
     "http_altconnect";
     "register_web";
     "lastlog";
@@ -121,7 +118,7 @@ c2s_require_encryption = true
 -- prevent servers from authenticating unless they are using encryption.
 -- Note that this is different from authentication
 
-s2s_require_encryption = false
+s2s_require_encryption = true
 
 
 -- Force certificate authentication for server-to-server connections?
@@ -137,7 +134,7 @@ s2s_secure_auth = true
 -- certificates. They will be authenticated using DNS instead, even
 -- when s2s_secure_auth is enabled.
 
-s2s_insecure_domains = { "gmail.com", "im.rmilk.com" }
+--s2s_insecure_domains = { "gmail.com", "im.rmilk.com" }
 
 -- Even if you leave s2s_secure_auth disabled, you can still require valid
 -- certificates for some domains by specifying a list here.
@@ -181,7 +178,7 @@ storage = "internal" -- Default is "internal"
 -- they are offline. This setting controls how long Prosody will keep
 -- messages in the archive before removing them.
 
-archive_expires_after = "1w" -- Remove archived messages after 1 week
+--archive_expires_after = "1w" -- Remove archived messages after 1 week
 
 -- You can also configure messages to be stored in-memory only. For more
 -- archiving options, see https://prosody.im/doc/modules/mod_mam
@@ -205,30 +202,18 @@ log = {
 
 -- Location of directory to find certificates in (relative to main config file):
 certificates = "certs"
+https_certificate = "certs/{domain}.crt"
 
-http_ports = { 5280 }
-http_interfaces = { "*" }
-https_ports = { 5281 }
-https_interfaces = { "*" }
-https_ssl = {
-  certificate = "/etc/prosody/certs/{domain}.crt";
-  key = "/etc/prosody/certs/{domain}.key";
-}
 cross_domain_bosh = true
 
 http_default_host = "{domain}"
-http_upload_file_size_limit = 10485760
+http_upload_file_size_limit = 10485760 -- 10MB
 http_upload_expire_after = 60 * 60 * 24 -- a day in seconds
 http_paths = {
   register_web = "/register";
   files = "/";
 }
 
-
-contact_info = {
-  abuse = { "mailto:{contact_email}", "xmpp:{admin_jid}" };
-  admin = { "mailto:{contact_email}", "xmpp:{admin_jid}" };
-}
 
 block_registrations_users = { "administrator", "admin", "root", "postmaster", "xmpp", "jabber", "contact", "mail", "abuse" }
 -- Allow only simple ASCII characters in usernames
@@ -238,17 +223,6 @@ register_web_template = "/etc/prosody/templates"
 captcha_options = {
   recaptcha_private_key = "{recaptcha_private}";
   recaptcha_public_key = "{recaptcha_public}";
-}
-
-limits = {
-  c2s = {
-    rate = "3kb/s";
-    burst = "2s";
-  };
-  s2sin = {
-    rate = "30kb/s";
-    burst = "3s";
-  };
 }
 
 http_files_dir = "/www"
@@ -270,12 +244,8 @@ VirtualHost "{domain}"
 ---Set up a MUC (multi-user chat) room server on conference.example.com:
 Component "room.{domain}" "muc"
   name = "{domain} Chatrooms"
-  muc_log_by_default = true
-  muc_log_presences = false
-  log_all_rooms = false
-  muc_log_cleanup_interval = 4 * 60 * 60
+  restrict_room_creation = "local"
   muc_tombstones = true
-  muc_log_expires_after = "1w"
   modules_enabled = {
     "muc_mam",
     "muc_limits",
@@ -283,6 +253,8 @@ Component "room.{domain}" "muc"
   }
 
 Component "proxy.{domain}" "proxy65"
+  proxy65_address = "{domain}"
+  proxy65_acl = { "{domain}" }
 
 ---Set up an external component (default component port is 5347)
 --

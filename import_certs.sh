@@ -5,4 +5,4 @@ cp -f /root/.acme.sh/${DOMAIN}/${DOMAIN}.key /etc/prosody/certs/${DOMAIN}.key
 chmod 777 /etc/prosody/certs/${DOMAIN}.{crt,key}
 
 # try reload http after renew
-echo -en "module:reload('http','${DOMAIN}')\nbye\n" | nc -w 5 localhost 5582
+prosodyctl reload
