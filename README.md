@@ -33,6 +33,7 @@ room.DOMAIN.	1	IN	A	1.2.3.4
 ;; SRV Records
 _xmpp-client._tcp.DOMAIN.	1	IN	SRV	0 5 5222 DOMAIN.
 _xmpps-client._tcp.DOMAIN.	1	IN	SRV	0 5 5223 DOMAIN.
+_xmpps-client._tcp.DOMAIN.	1	IN	SRV	5 0 443 DOMAIN.
 _xmpp-server._tcp.DOMAIN.	1	IN	SRV	0 5 5269 DOMAIN.
 ```
 
