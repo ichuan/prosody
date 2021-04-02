@@ -105,6 +105,14 @@ modules_disabled = {
 	-- "posix"; -- POSIX functionality, sends server to background, enables syslog, etc.
 }
 
+contact_info = {
+  abuse = { "xmpp:{admin_jid}" };
+  admin = { "xmpp:{admin_jid}" };
+  feedback = { "xmpp:{admin_jid}" };
+  security = { "xmpp:{admin_jid}" };
+  support = { "xmpp:{admin_jid}" };
+}
+
 
 daemonize = false
 
