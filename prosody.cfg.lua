@@ -71,7 +71,7 @@ modules_enabled = {
 
 	-- Other specific functionality
 		--"limits"; -- Enable bandwidth limiting for XMPP connections
-		--"server_contact_info"; -- Publish contact information for this service
+		"server_contact_info"; -- Publish contact information for this service
 		"announce"; -- Send announcement to all online users
 		--"welcome"; -- Welcome users who register accounts
 		"watchregistrations"; -- Alert admins of registrations
@@ -105,7 +105,6 @@ modules_disabled = {
 
 
 daemonize = false
-
 
 -- Disable account creation by default, for security
 -- For more information see https://prosody.im/doc/creating_accounts
