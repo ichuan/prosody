@@ -230,12 +230,12 @@ block_registrations_users = { "administrator", "admin", "root", "postmaster", "x
 -- Allow only simple ASCII characters in usernames
 block_registrations_require = "^[a-zA-Z0-9_.-]+$"
 
--- Spamhaus CBL address
-registration_rbl = "xbl.spamhaus.org"
+-- DroneBL
+registration_rbl = "dnsbl.dronebl.org"
 -- Automatic message to flagged user account, outlining where to find help
 -- as well as why the IP was blocked. You can use the following variables:
 --   $ip $username $host
-registration_rbl_message = "[...] More details: https://www.spamhaus.org/query/ip/$ip"
+registration_rbl_message = "[...] More details: https://dronebl.org/lookup?ip=$ip"
 -- Enable firewall marks and load the firewall script
 firewall_experimental_user_marks = true
 firewall_scripts = {
