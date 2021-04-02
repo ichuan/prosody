@@ -91,6 +91,7 @@ modules_enabled = {
     "block_registrations";
     "firewall",
     "register_dnsbl_firewall_mark";
+    "block_strangers";
 }
 
 -- These modules are auto-loaded, but should you want
