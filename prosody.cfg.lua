@@ -230,7 +230,11 @@ registration_rbl = "xbl.spamhaus.org"
 registration_rbl_message = "[...] More details: https://www.spamhaus.org/query/ip/$ip"
 -- Enable firewall marks and load the firewall script
 firewall_experimental_user_marks = true
-firewall_scripts = { "/etc/prosody/rbl.pfw" }
+firewall_scripts = {
+  "/etc/prosody/rbl.pfw";
+  "module:scripts/spam-blocking.pfw"; -- Base anti-spam ruleset
+  "module:scripts/spam-blocklists.pfw"; -- Add blocklist-based filter
+}
 
 
 register_web_template = "/etc/prosody/templates"
