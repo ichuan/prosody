@@ -209,6 +209,7 @@ certificates = "certs"
 https_certificate = "certs/{domain}.crt"
 
 cross_domain_bosh = true
+cross_domain_websocket = true
 
 http_default_host = "{domain}"
 http_file_share_size_limit = 16*1024*1024 -- 16 MiB
