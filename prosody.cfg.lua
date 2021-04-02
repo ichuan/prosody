@@ -68,6 +68,7 @@ modules_enabled = {
 		"bosh"; -- Enable BOSH clients, aka "Jabber over HTTP"
 		"websocket"; -- XMPP over WebSockets
 		"http_files"; -- Serve static files from a directory over HTTP
+		"http_file_share";
 
 	-- Other specific functionality
 		--"limits"; -- Enable bandwidth limiting for XMPP connections
@@ -80,7 +81,6 @@ modules_enabled = {
   -- Custom
     "cloud_notify";
     "smacks";
-    "http_upload";
     "throttle_presence";
     "filter_chatstates";
     "http_altconnect";
@@ -211,8 +211,9 @@ https_certificate = "certs/{domain}.crt"
 cross_domain_bosh = true
 
 http_default_host = "{domain}"
-http_upload_file_size_limit = 10485760 -- 10MB
-http_upload_expire_after = 60 * 60 * 24 -- a day in seconds
+http_file_share_size_limit = 16*1024*1024 -- 16 MiB
+http_file_share_daily_quota = 100*1024*1024 -- 100 MiB per day per user
+http_file_share_expires_after = 60 * 60 * 24 -- a day
 http_paths = {
   register_web = "/register";
   files = "/";
@@ -274,6 +275,8 @@ Component "room.{domain}" "muc"
 Component "proxy.{domain}" "proxy65"
   proxy65_address = "{domain}"
   proxy65_acl = { "{domain}" }
+
+Component "upload.{domain}" "http_file_share"
 
 ---Set up an external component (default component port is 5347)
 --
