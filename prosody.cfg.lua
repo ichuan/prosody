@@ -89,6 +89,8 @@ modules_enabled = {
     "listusers";
     "bookmarks";
     "block_registrations";
+    "firewall",
+    "register_dnsbl_firewall_mark";
 }
 
 -- These modules are auto-loaded, but should you want
@@ -218,6 +220,17 @@ http_paths = {
 block_registrations_users = { "administrator", "admin", "root", "postmaster", "xmpp", "jabber", "contact", "mail", "abuse" }
 -- Allow only simple ASCII characters in usernames
 block_registrations_require = "^[a-zA-Z0-9_.-]+$"
+
+-- Spamhaus CBL address
+registration_rbl = "xbl.spamhaus.org"
+-- Automatic message to flagged user account, outlining where to find help
+-- as well as why the IP was blocked. You can use the following variables:
+--   $ip $username $host
+registration_rbl_message = "[...] More details: https://www.spamhaus.org/query/ip/$ip"
+-- Enable firewall marks and load the firewall script
+firewall_experimental_user_marks = true
+firewall_scripts = { "/etc/prosody/rbl.pfw" }
+
 
 register_web_template = "/etc/prosody/templates"
 captcha_options = {

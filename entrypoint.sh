@@ -2,6 +2,77 @@
 
 envs=(ADMIN_JID DOMAIN RECAPTCHA_PRIVATE RECAPTCHA_PUBLIC)
 
+function generate_rbl_rules() {
+  # https://github.com/JabberSPAM/resources/blob/master/prosody/restrict-proxy-registrations.md#firewall-rules
+cat > /etc/prosody/rbl.pfw <<EOF
+%LIST whitelist_to: file:/etc/prosody/whitelist_to.txt
+
+############ preroute chain: stanzas from local users ############
+::preroute
+
+# allow errors, whitelisted and self-messages
+JUMP_CHAIN=user/pass_acceptable
+
+# process stanzas from marked users
+USER MARKED: dnsbl_hit
+JUMP_CHAIN=user/marked_user
+
+# you can add further rules to restrict non-marked users as well
+# ...
+
+
+############ chain to pass acceptable messages ############
+::user/pass_acceptable
+
+# do not firewall error stanzas, or they'll loop
+TYPE: error
+PASS.
+
+# accept unsubscribe(d) and unavailable (see #1331)
+KIND: presence
+TYPE: unsubscribe|unsubscribed|unavailable
+PASS.
+
+# do not filter whitelisted receivers
+CHECK LIST: whitelist_to contains $<@to|bare>
+PASS.
+
+# do not filter stanzas to self
+TO SELF?
+PASS.
+
+
+############ quarantine for MARKed users ############
+::user/marked_user
+
+# reject outgoing subscriptions, allow MUC and normal presence
+KIND: presence
+TYPE: subscribe
+JUMP_CHAIN=user/bounce_marked
+
+# work around issue #1331
+KIND: presence
+TYPE: unavailable
+PASS.
+
+# allow talking to contacts
+SUBSCRIBED?
+PASS.
+
+# bounce all non-MUC messages
+KIND: message
+TYPE: chat|normal|headline
+NOT SUBSCRIBED?
+JUMP_CHAIN=user/bounce_marked
+
+
+############ rule to reject spam messages and responses ############
+::user/bounce_marked
+LOG=spam: marked-user \$(stanza)
+BOUNCE=not-allowed (Your account is suspended. Contact support.)
+EOF
+}
+
 if test $# -eq 0; then
   for i in ${envs[@]}; do
     if test -z "${!i}"; then
@@ -22,6 +93,9 @@ if test $# -eq 0; then
     -e "s#{recaptcha_private}#${RECAPTCHA_PRIVATE}#g" \
     -e "s#{recaptcha_public}#${RECAPTCHA_PUBLIC}#g" \
     /etc/prosody/prosody.cfg.lua
+  # allow legitimate users to talk to admin to get unblocked
+  echo "${ADMIN_JID}" > /etc/prosody/whitelist_to.txt
+  generate_rbl_rules
   # cert
   /import_certs.sh
   (crontab -l | grep -v import_certs.sh; echo "0 1 * * * /import_certs.sh") | crontab -
