@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-envs=(ADMIN_JID DOMAIN RECAPTCHA_PRIVATE RECAPTCHA_PUBLIC)
+envs=(ADMIN_JID DOMAIN CAPTCHA_PRIVATE CAPTCHA_PUBLIC)
 
 function generate_rbl_rules() {
   # https://github.com/JabberSPAM/resources/blob/master/prosody/restrict-proxy-registrations.md#firewall-rules
@@ -90,8 +90,8 @@ if test $# -eq 0; then
   # prosody.cfg.lua
   sed -i -e "s#{domain}#$DOMAIN#g" \
     -e "s#{admin_jid}#${ADMIN_JID}#g" \
-    -e "s#{recaptcha_private}#${RECAPTCHA_PRIVATE}#g" \
-    -e "s#{recaptcha_public}#${RECAPTCHA_PUBLIC}#g" \
+    -e "s#{captcha_private}#${CAPTCHA_PRIVATE}#g" \
+    -e "s#{captcha_public}#${CAPTCHA_PUBLIC}#g" \
     /etc/prosody/prosody.cfg.lua
   # allow legitimate users to talk to admin to get unblocked
   echo "${ADMIN_JID}" > /etc/prosody/whitelist_to.txt

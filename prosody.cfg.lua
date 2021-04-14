@@ -245,10 +245,10 @@ firewall_scripts = {
 }
 
 
-register_web_template = "/etc/prosody/templates"
 captcha_options = {
-  recaptcha_private_key = "{recaptcha_private}";
-  recaptcha_public_key = "{recaptcha_public}";
+  provider = "hcaptcha";
+  captcha_private_key = "{captcha_private}";
+  captcha_public_key = "{captcha_public}";
 }
 
 http_files_dir = "/www"

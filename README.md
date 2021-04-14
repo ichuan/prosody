@@ -6,7 +6,7 @@ jabber server.
 - A linux server with docker installed
   - As low as 1 core, 512MB memory
 - A domain under your control
-- A pair of [reCaptcha](https://www.google.com/recaptcha/admin/create) keys filter spamming in register page
+- A pair of [hCaptcha](https://www.hcaptcha.com/) keys filter spamming in register page
 
 ## 1. Define some varibles
 
@@ -15,9 +15,9 @@ jabber server.
 DOMAIN=yourdomain.com
 # Your jabber account on that server, will be created as admin.
 JID="yourname@${DOMAIN}"
-# recaptcha keys
-RECAPTCHA_PRIVATE=xxx
-RECAPTCHA_PUBLIC=yyy
+# hCaptcha keys
+CAPTCHA_PRIVATE=xxx
+CAPTCHA_PUBLIC=yyy
 ```
 
 ## 2. DNS configure
@@ -66,8 +66,8 @@ docker run --restart always -itd --name iprosody \
   -v $PWD/prosody:/var/lib/prosody \
   -v acme.sh:/root/.acme.sh \
   -e ADMIN_JID=$JID -e DOMAIN=$DOMAIN -e SINCE=$SINCE \
-  -e RECAPTCHA_PRIVATE=$RECAPTCHA_PRIVATE \
-  -e RECAPTCHA_PUBLIC=$RECAPTCHA_PUBLIC \
+  -e CAPTCHA_PRIVATE=$CAPTCHA_PRIVATE \
+  -e CAPTCHA_PUBLIC=$CAPTCHA_PUBLIC \
   ichuan/prosody
 ```
 

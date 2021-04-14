@@ -10,11 +10,6 @@ RUN apt update && apt install -y prosody-trunk lua-event lua-sec
 RUN hg clone 'https://hg.prosody.im/prosody-modules/' /etc/prosody/prosody-modules
 RUN wget -O - https://get.acme.sh | sh
 
-# recaptcha
-# replace google.com with recaptcha.net, for accessing in China
-RUN cp -rf /etc/prosody/prosody-modules/mod_register_web/templates/ /etc/prosody/ && \
-    sed -i 's/www.google.com/www.recaptcha.net/g' /etc/prosody/templates/recaptcha.html
-
 # cleanup
 RUN apt remove -y mercurial && apt autoremove -y && rm -rf /var/lib/apt/lists/*
 
