@@ -244,12 +244,13 @@ firewall_scripts = {
   "module:scripts/spam-blocklists.pfw"; -- Add blocklist-based filter
 }
 
-
 captcha_options = {
   provider = "hcaptcha";
   captcha_private_key = "{captcha_private}";
   captcha_public_key = "{captcha_public}";
 }
+
+registration_notification = "User $username just registered on $host from $ip via $source"
 
 http_files_dir = "/www"
 
