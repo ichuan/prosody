@@ -93,6 +93,7 @@ modules_enabled = {
     "register_dnsbl_firewall_mark";
     "spam_reporting";
     "watch_spam_reports";
+    "s2s_blacklist";
 }
 
 -- These modules are auto-loaded, but should you want
@@ -242,6 +243,10 @@ firewall_scripts = {
   "/etc/prosody/rbl.pfw";
   "module:scripts/spam-blocking.pfw"; -- Base anti-spam ruleset
   "module:scripts/spam-blocklists.pfw"; -- Add blocklist-based filter
+}
+
+s2s_blacklist = {
+    "chatwith.xyz",
 }
 
 captcha_options = {
