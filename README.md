@@ -28,8 +28,10 @@ replace *DOMAIN* with your real domain name):
 ```zone
 ;; A Records
 DOMAIN.	1	IN	A	1.2.3.4
-room.DOMAIN.	1	IN	A	1.2.3.4
-upload.DOMAIN.	1	IN	A	1.2.3.4
+
+;; CNAME Records
+room.DOMAIN.	1	IN	CNAME	DOMAIN.
+upload.DOMAIN.	1	IN	CNAME	DOMAIN.
 
 ;; SRV Records
 _xmpp-client._tcp.DOMAIN.	1	IN	SRV	0 5 5222 DOMAIN.
