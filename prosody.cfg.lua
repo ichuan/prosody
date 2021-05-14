@@ -36,73 +36,73 @@ plugin_paths = { "/etc/prosody/prosody-modules" }
 -- Documentation for bundled modules can be found at: https://prosody.im/doc/modules
 modules_enabled = {
 
-	-- Generally required
-		"roster"; -- Allow users to have a roster. Recommended ;)
-		"saslauth"; -- Authentication for clients and servers. Recommended if you want to log in.
-		"tls"; -- Add support for secure TLS on c2s/s2s connections
-		"dialback"; -- s2s dialback support
-		"disco"; -- Service discovery
+  -- Generally required
+  "roster"; -- Allow users to have a roster. Recommended ;)
+  "saslauth"; -- Authentication for clients and servers. Recommended if you want to log in.
+  "tls"; -- Add support for secure TLS on c2s/s2s connections
+  "dialback"; -- s2s dialback support
+  "disco"; -- Service discovery
 
-	-- Not essential, but recommended
-		"carbons"; -- Keep multiple clients in sync
-		"pep"; -- Enables users to publish their mood, activity, playing music and more
-		"private"; -- Private XML storage (for room bookmarks, etc.)
-		"blocklist"; -- Allow users to block communications with other users
-		"vcard4"; -- User profiles (stored in PEP)
-		"vcard_legacy"; -- Conversion between legacy vCard and PEP Avatar, vcard
+  -- Not essential, but recommended
+  "carbons"; -- Keep multiple clients in sync
+  "pep"; -- Enables users to publish their mood, activity, playing music and more
+  "private"; -- Private XML storage (for room bookmarks, etc.)
+  "blocklist"; -- Allow users to block communications with other users
+  "vcard4"; -- User profiles (stored in PEP)
+  "vcard_legacy"; -- Conversion between legacy vCard and PEP Avatar, vcard
 
-	-- Nice to have
-		"version"; -- Replies to server version requests
-		"uptime"; -- Report how long server has been running
-		"time"; -- Let others know the time here on this server
-		"ping"; -- Replies to XMPP pings with pongs
-		"register"; -- Allow users to register on this server using a client and change passwords
-		"mam"; -- Store messages in an archive and allow users to access it
-		"csi_simple"; -- Simple Mobile optimizations
+  -- Nice to have
+  "version"; -- Replies to server version requests
+  "uptime"; -- Report how long server has been running
+  "time"; -- Let others know the time here on this server
+  "ping"; -- Replies to XMPP pings with pongs
+  "register"; -- Allow users to register on this server using a client and change passwords
+  "mam"; -- Store messages in an archive and allow users to access it
+  "csi_simple"; -- Simple Mobile optimizations
 
-	-- Admin interfaces
-		"admin_adhoc"; -- Allows administration via an XMPP client that supports ad-hoc commands
-		"admin_telnet"; -- Opens telnet console interface on localhost port 5582
+  -- Admin interfaces
+  "admin_adhoc"; -- Allows administration via an XMPP client that supports ad-hoc commands
+  "admin_telnet"; -- Opens telnet console interface on localhost port 5582
 
-	-- HTTP modules
-		"bosh"; -- Enable BOSH clients, aka "Jabber over HTTP"
-		"websocket"; -- XMPP over WebSockets
-		"http_files"; -- Serve static files from a directory over HTTP
-		"http_file_share";
+  -- HTTP modules
+  "bosh"; -- Enable BOSH clients, aka "Jabber over HTTP"
+  "websocket"; -- XMPP over WebSockets
+  "http_files"; -- Serve static files from a directory over HTTP
+  "http_file_share";
 
-	-- Other specific functionality
-		--"limits"; -- Enable bandwidth limiting for XMPP connections
-		"server_contact_info"; -- Publish contact information for this service
-		"announce"; -- Send announcement to all online users
-		--"welcome"; -- Welcome users who register accounts
-		"watchregistrations"; -- Alert admins of registrations
-		"proxy65"; -- Enables a file transfer proxy service which clients behind NAT can use
+  -- Other specific functionality
+  "limits"; -- Enable bandwidth limiting for XMPP connections
+  "server_contact_info"; -- Publish contact information for this service
+  "announce"; -- Send announcement to all online users
+  --"welcome"; -- Welcome users who register accounts
+  "watchregistrations"; -- Alert admins of registrations
+  "proxy65"; -- Enables a file transfer proxy service which clients behind NAT can use
 
   -- Custom
-    "cloud_notify";
-    "smacks";
-    "throttle_presence";
-    "filter_chatstates";
-    "http_altconnect";
-    "register_web";
-    "lastlog";
-    "listusers";
-    "bookmarks";
-    "block_registrations";
-    "firewall",
-    "register_dnsbl_firewall_mark";
-    "spam_reporting";
-    "watch_spam_reports";
-    "s2s_blacklist";
+  "cloud_notify";
+  "smacks";
+  "throttle_presence";
+  "filter_chatstates";
+  "http_altconnect";
+  "register_web";
+  "lastlog";
+  "listusers";
+  "bookmarks";
+  "block_registrations";
+  "firewall",
+  "register_dnsbl_firewall_mark";
+  "spam_reporting";
+  "watch_spam_reports";
+  "s2s_blacklist";
 }
 
 -- These modules are auto-loaded, but should you want
 -- to disable them then uncomment them here:
 modules_disabled = {
-	-- "offline"; -- Store offline messages
-	-- "c2s"; -- Handle client connections
-	-- "s2s"; -- Handle server-to-server connections
-	-- "posix"; -- POSIX functionality, sends server to background, enables syslog, etc.
+  -- "offline"; -- Store offline messages
+  -- "c2s"; -- Handle client connections
+  -- "s2s"; -- Handle server-to-server connections
+  -- "posix"; -- POSIX functionality, sends server to background, enables syslog, etc.
 }
 
 contact_info = {
@@ -113,6 +113,30 @@ contact_info = {
   support = { "xmpp:{admin_jid}" };
 }
 
+-- https://prosody.im/security/advisory_20210512/
+gc = {
+  speed = 500;
+}
+
+c2s_stanza_size_limit = 256 * 1024
+s2s_stanza_size_limit = 512 * 1024
+
+limits = {
+  c2s = {
+    rate = "10kb/s";
+    burst = "2s";
+  };
+  s2sin = {
+    rate = "30kb/s";
+    burst = "2s";
+  }
+}
+
+ssl = {
+  options = {
+    no_renegotiation = true;
+  }
+}
 
 -- Disable account creation by default, for security
 -- For more information see https://prosody.im/doc/creating_accounts
@@ -266,7 +290,7 @@ http_files_dir = "/www"
 VirtualHost "{domain}"
 
 --VirtualHost "example.com"
---	certificate = "/path/to/example.crt"
+--  certificate = "/path/to/example.crt"
 
 ------ Components ------
 -- You can specify components to add hosts that provide special services,
@@ -297,4 +321,4 @@ Component "upload.{domain}" "http_file_share"
 -- see: https://prosody.im/doc/components#adding_an_external_component
 --
 --Component "gateway.example.com"
---	component_secret = "password"
+--  component_secret = "password"
