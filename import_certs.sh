@@ -1,7 +1,7 @@
 #!/bin/bash
 
-if [ -f "/etc/prosody/certs/${DOMAIN}.key" ]; then
-  checksums=`md5sum /root/.acme.sh/${DOMAIN}/${DOMAIN}.key /etc/prosody/certs/${DOMAIN}.key | awk '{print $1}' | uniq | wc -l`
+if [ -f "/etc/prosody/certs/${DOMAIN}.crt" ]; then
+  checksums=`md5sum /root/.acme.sh/${DOMAIN}/fullchain.cer /etc/prosody/certs/${DOMAIN}.crt | awk '{print $1}' | uniq | wc -l`
   if [ "$checksums" = "1" ]; then
     exit 0
   fi
