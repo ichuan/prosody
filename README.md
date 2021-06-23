@@ -46,7 +46,8 @@ _xmpp-server._tcp.DOMAIN.	1	IN	SRV	0 5 5269 DOMAIN.
 mkdir -p acme.sh
 docker volume create --driver local --opt type=none --opt device=$PWD/acme.sh --opt o=bind acme.sh
 docker run -it --rm --name acme.sh -p 80:80 -v acme.sh:/root/.acme.sh ichuan/prosody \
-  /root/.acme.sh/acme.sh --home /root/.acme.sh --issue --standalone -d $DOMAIN -d upload.$DOMAIN
+  /root/.acme.sh/acme.sh --home /root/.acme.sh --issue --standalone \
+  --server letsencrypt -d $DOMAIN -d upload.$DOMAIN
 ```
 
 Certs will be renewed automatically.
@@ -63,7 +64,7 @@ SINCE="2018/9/2"
 
 # ports: 5223:legacy_ssl, 5280:http, 5281:https, 5000:proxy65, 5222:c2s, 5269:s2s
 docker run --restart always -itd --name iprosody \
-  -p 5223:5223 -p 80:5280 -p 5280:5280 -p 443:5281 -p 5281:5281 \
+  -p 5223:5223 -p 80:80 -p 5280:5280 -p 443:443 -p 5281:5281 \
   -p 5000:5000 -p 5222:5222 -p 5269:5269 \
   -v $PWD/prosody:/var/lib/prosody \
   -v acme.sh:/root/.acme.sh \
