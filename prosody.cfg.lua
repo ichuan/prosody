@@ -283,8 +283,6 @@ registration_notification = "User $username just registered on $host from $ip vi
 
 http_files_dir = "/www"
 
-trusted_proxies = { "127.0.0.1", "::1", }
-
 ----------- Virtual hosts -----------
 -- You need to add a VirtualHost entry for each domain you wish Prosody to serve.
 -- Settings under each VirtualHost entry apply *only* to that host.

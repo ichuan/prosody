@@ -96,9 +96,6 @@ if test $# -eq 0; then
   # allow legitimate users to talk to admin to get unblocked
   echo "${ADMIN_JID}" > /etc/prosody/whitelist_to.txt
   generate_rbl_rules
-  # nginx
-  sed -i -e "s#{domain}#$DOMAIN#g" /etc/nginx/nginx.conf
-  /etc/init.d/nginx start
   # cert
   /import_certs.sh
   (crontab -l | grep -v import_certs.sh; echo "0 1 * * * /import_certs.sh") | crontab -
