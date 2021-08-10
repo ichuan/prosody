@@ -271,6 +271,16 @@ firewall_scripts = {
 
 s2s_blacklist = {
     "chatwith.xyz",
+    "exploit.im",
+    "jabbim.sk",
+    "jabbim.ru",
+    "omemo.im",
+    "crime.io",
+    "xmpp.jp",
+    "jabber.cz",
+    "draugr.de",
+    "jabster.pl",
+    "blabber.im",
 }
 
 captcha_options = {
