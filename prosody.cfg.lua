@@ -323,6 +323,9 @@ Component "proxy.{domain}" "proxy65"
   proxy65_acl = { "{domain}" }
 
 Component "upload.{domain}" "http_file_share"
+  modules_enabled = {
+    "mod_acme_challenge_dir",
+  }
 
 ---Set up an external component (default component port is 5347)
 --

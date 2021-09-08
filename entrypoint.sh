@@ -96,6 +96,8 @@ if test $# -eq 0; then
   # allow legitimate users to talk to admin to get unblocked
   echo "${ADMIN_JID}" > /etc/prosody/whitelist_to.txt
   generate_rbl_rules
+  # acme.sh
+  (crontab -l | grep -v acme.sh; echo "2 0 * * * /root/.acme.sh/acme.sh --cron --home /root/.acme.sh > /dev/null") | crontab -
   # cert
   /import_certs.sh
   (crontab -l | grep -v import_certs.sh; echo "0 1 * * * /import_certs.sh") | crontab -
