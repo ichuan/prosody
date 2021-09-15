@@ -45,7 +45,7 @@ _xmpp-server._tcp.DOMAIN.	1	IN	SRV	0 5 5269 DOMAIN.
 ```sh
 mkdir -p acme.sh
 docker volume create --driver local --opt type=none --opt device=$PWD/acme.sh --opt o=bind acme.sh
-docker run -it --rm --name acme.sh -p 80:80 -v acme.sh:/root/.acme.sh ichuan/prosody \
+docker run -it --rm --name acme.sh -p 80:80 -v acme.sh:/root/.acme.sh ghcr.io/ichuan/prosody \
   /root/.acme.sh/acme.sh --home /root/.acme.sh --issue --standalone \
   --server letsencrypt -d $DOMAIN -d upload.$DOMAIN
 ```
@@ -71,7 +71,7 @@ docker run --restart always -itd --name iprosody \
   -e ADMIN_JID=$JID -e DOMAIN=$DOMAIN -e SINCE=$SINCE \
   -e CAPTCHA_PRIVATE=$CAPTCHA_PRIVATE \
   -e CAPTCHA_PUBLIC=$CAPTCHA_PUBLIC \
-  ichuan/prosody
+  ghcr.io/ichuan/prosody
 ```
 
 Now, head to https://*DOMAIN* to see it.
@@ -88,7 +88,7 @@ docker exec -it iprosody prosodyctl adduser $JID
 ## 6. Upgrading
 
 ```sh
-docker pull ichuan/prosody
+docker pull ghcr.io/ichuan/prosody
 docker stop iprosody && docker rm iprosody
 # re-run with previous command line
 docker run --restart always ...
