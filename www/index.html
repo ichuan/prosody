@@ -4,9 +4,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="icon" type="image/png" href="/favicon.png">
   <title>Chat Server</title>
   <script>location.protocol === 'http:' && location.replace(location.href.replace(/^http:/, 'https:'))</script>
   <style>
@@ -62,6 +60,7 @@
 
     <script>
       (function () {
+        // stats
         var $ = function(id) { return document.getElementById(id) }
           , req = new XMLHttpRequest();
         req.addEventListener('load', function () {
@@ -72,6 +71,35 @@
         });
         req.open('GET', '/stats.json');
         req.send();
+
+        // dynamic favicon based on domain name
+        function setFaviconText(char) {
+          var size = 256
+            , textPercent = 0.75
+            , elCanvas = document.createElement('canvas')
+            , ctx = elCanvas.getContext('2d')
+            , fontSize = Math.floor(size * textPercent);
+          elCanvas.width = size;
+          elCanvas.height = size;
+          ctx.fillStyle = '#209CEE';
+          ctx.fillRect(0, 0, size, size);
+          ctx.fillStyle = '#fff';
+          ctx.font = 'bold ' + fontSize + 'px/' + size + 'px sans-serif';
+          ctx.textBaseline = 'middle';
+          ctx.textAlign = 'center';
+          ctx.fillText(char, size / 2, size / 2, size);
+          var elLink = document.querySelector('head link[rel="icon"]');
+          if (window.URL) {
+            elCanvas.toBlob(function(blob) {
+              elLink.href = URL.createObjectURL(blob);
+            });
+          } else {
+            elLink.href = elCanvas.toDataURL('image/png');
+          }
+        }
+        var host = window.location.hostname.toUpperCase();
+        var char = host.startsWith('WWW.') ? host[4] : host[0];
+        setFaviconText(char);
       })();
     </script>
 
