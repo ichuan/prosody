@@ -265,7 +265,7 @@ registration_rbl_message = "[...] More details: https://dronebl.org/lookup?ip=$i
 firewall_experimental_user_marks = true
 firewall_scripts = {
   "/etc/prosody/rbl.pfw";
-  "module:scripts/spam-blocking.pfw"; -- Base anti-spam ruleset
+  -- "module:scripts/spam-blocking.pfw"; -- Base anti-spam ruleset, disabled for misjudgments
   "module:scripts/spam-blocklists.pfw"; -- Add blocklist-based filter
 }
 
