@@ -140,7 +140,7 @@ ssl = {
 
 -- Disable account creation by default, for security
 -- For more information see https://prosody.im/doc/creating_accounts
-allow_registration = true
+allow_registration = false
 min_seconds_between_registrations = 60
 
 -- Force clients to use encrypted connections? This option will
@@ -280,6 +280,18 @@ s2s_blacklist = {
     "draugr.de",
     "jabster.pl",
     "blabber.im",
+    "jabbim.cz",
+    "jabb.im",
+    "jabbim.pl",
+    "njs.netlab.cz",
+    "jabber.root.cz",
+    "0nl1ne.at",
+    "jabbim.com",
+    "xabber.de",
+    "creep.im",
+    "ubuntu-jabber.de",
+    "verdammung.org",
+    "deshalbfrei.org",
 }
 
 captcha_options = {
