@@ -292,6 +292,7 @@ s2s_blacklist = {
     "ubuntu-jabber.de",
     "verdammung.org",
     "deshalbfrei.org",
+    "jabber.sk",
 }
 
 captcha_options = {
