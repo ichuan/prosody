@@ -290,6 +290,7 @@ s2s_blacklist = {
     "xabber.de",
     "creep.im",
     "ubuntu-jabber.de",
+    "ubuntu-jabber.net",
     "verdammung.org",
     "deshalbfrei.org",
     "jabber.sk",
