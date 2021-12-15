@@ -21,8 +21,7 @@
       font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
     }
     code {
-      background: rgb(250, 235, 235);
-      color: #cb3837;
+      color: #d63384;
     }
     #title {
       text-align: center;
@@ -36,6 +35,15 @@
     }
     @media (min-width: 992px) {
       #container { width: 750px; }
+    }
+    @media (prefers-color-scheme: dark) {
+      body {
+        color: #eee;
+        background: #121212;
+      }
+      body a {
+        color: #809fff;
+      }
     }
   </style>
 </head>
