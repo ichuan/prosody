@@ -81,6 +81,8 @@ if test $# -eq 0; then
     fi
     export $i
   done
+  # remove conflicting community modules
+  rm -rf /etc/prosody/prosody-modules/mod_bookmarks
   # cron
   printenv | grep -v no_proxy > /etc/environment
   /etc/init.d/cron start

@@ -77,6 +77,7 @@ modules_enabled = {
   --"welcome"; -- Welcome users who register accounts
   "watchregistrations"; -- Alert admins of registrations
   "proxy65"; -- Enables a file transfer proxy service which clients behind NAT can use
+  "bookmarks";
 
   -- Custom
   "cloud_notify";
@@ -87,7 +88,6 @@ modules_enabled = {
   "register_web";
   "lastlog";
   "listusers";
-  "bookmarks";
   "block_registrations";
   "firewall",
   "register_dnsbl_firewall_mark";
