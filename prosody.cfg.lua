@@ -296,6 +296,22 @@ s2s_blacklist = {
     "verdammung.org",
     "deshalbfrei.org",
     "jabber.sk",
+    "0day.im",
+    "0day.la",
+    "01337.ru",
+    "01337.io",
+    "c99x.io",
+    "c99x.cc",
+    "htp.im",
+    "hell.la",
+    "sqli.io",
+    "shad0w.ru",
+    "shad0w.la",
+    "shad0w.io",
+    "shadownet.su",
+    "darknet.im",
+    "chinwag.im",
+    "yourdata.forsale",
 }
 
 captcha_options = {
