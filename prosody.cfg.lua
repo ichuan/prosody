@@ -249,6 +249,8 @@ http_paths = {
   register_web = "/register";
   files = "/";
 }
+-- Allow unencrypted HTTP connections
+http_interfaces = { "0.0.0.0", "::" }
 
 
 block_registrations_users = { "administrator", "admin", "root", "postmaster", "xmpp", "jabber", "contact", "mail", "abuse" }
