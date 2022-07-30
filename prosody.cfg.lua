@@ -312,6 +312,8 @@ s2s_blacklist = {
     "darknet.im",
     "chinwag.im",
     "yourdata.forsale",
+    "jabber.ccc.de",
+    "thesecure.biz",
 }
 
 captcha_options = {
