@@ -314,6 +314,9 @@ s2s_blacklist = {
     "yourdata.forsale",
     "jabber.ccc.de",
     "thesecure.biz",
+    "jabbim.club",
+    "jabbim.rocks",
+    "xmpp.cz",
 }
 
 captcha_options = {
