@@ -8,6 +8,7 @@ RUN echo deb http://packages.prosody.im/debian bullseye main | tee /etc/apt/sour
 RUN wget https://prosody.im/files/prosody-debian-packages.key -O- | apt-key add -
 # https://prosody.im/doc/depends
 RUN apt update && apt install -y lua5.4 lua-readline lua-unbound lua-event lua-socket lua-sec lua-expat lua-filesystem prosody-trunk
+RUN update-alternatives --set lua-interpreter /usr/bin/lua5.4
 RUN hg clone 'https://hg.prosody.im/prosody-modules/' /etc/prosody/prosody-modules
 ADD mod_acme_challenge_dir.lua /etc/prosody/prosody-modules/mod_acme_challenge_dir/
 RUN wget -O - https://get.acme.sh | sh -s email=me@me.com
