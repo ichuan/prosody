@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Converse</title>
     <script>location.protocol === 'http:' && location.replace(location.href.replace(/^http:/, 'https:'))</script>
-    <link rel="shortcut icon" type="image/ico" href="css/images/favicon.ico"/>
-    <link type="text/css" rel="stylesheet" media="screen" href="css/converse.min.css" />
-    <script src="js/libsignal-protocol.min.js"></script>
-    <script src="js/converse.min.js"></script>
+    <link rel="shortcut icon" type="image/ico" href="dist/images/favicon.ico"/>
+    <link type="text/css" rel="stylesheet" media="screen" href="dist/converse.min.css" />
+    <script src="dist/libsignal-protocol.min.js"></script>
+    <script src="dist/converse.min.js"></script>
 </head>
 <body class="reset">
     <div class="converse-content" style="display:none">
@@ -50,17 +50,10 @@
 
     */
     converse.initialize({
-        animate: false,
+        assets_path: 'dist/',
         authentication: 'login',
-        auto_away: 300,
-        auto_reconnect: true,
         bosh_service_url: 'https://' + location.hostname + '/http-bind/',
-        message_archiving: 'always',
-        message_carbons: true,
         play_sounds: true,
-        i18n: 'en',
-        auto_register_muc_nickname: true,
-        muc_nickname_from_jid: true,
         view_mode: 'fullscreen'
     }).then(function () {
         setTimeout(function () {
