@@ -40,14 +40,17 @@ modules_enabled = {
   "roster"; -- Allow users to have a roster. Recommended ;)
   "saslauth"; -- Authentication for clients and servers. Recommended if you want to log in.
   "tls"; -- Add support for secure TLS on c2s/s2s connections
-  "dialback"; -- s2s dialback support
   "disco"; -- Service discovery
 
   -- Not essential, but recommended
   "carbons"; -- Keep multiple clients in sync
+  "dialback"; -- s2s dialback support
+  "limits"; -- Enable bandwidth limiting for XMPP connections
   "pep"; -- Enables users to publish their mood, activity, playing music and more
   "private"; -- Private XML storage (for room bookmarks, etc.)
+  "smacks"; -- Stream management and resumption (XEP-0198)
   "blocklist"; -- Allow users to block communications with other users
+  "bookmarks"; -- Synchronise the list of open rooms between clients
   "vcard4"; -- User profiles (stored in PEP)
   "vcard_legacy"; -- Conversion between legacy vCard and PEP Avatar, vcard
 
@@ -63,30 +66,24 @@ modules_enabled = {
   -- Admin interfaces
   "admin_adhoc"; -- Allows administration via an XMPP client that supports ad-hoc commands
   "admin_telnet"; -- Opens telnet console interface on localhost port 5582
+  "admin_shell"; -- Allow secure administration via 'prosodyctl shell'
 
   -- HTTP modules
   "bosh"; -- Enable BOSH clients, aka "Jabber over HTTP"
   "websocket"; -- XMPP over WebSockets
   "http_files"; -- Serve static files from a directory over HTTP
-  "http_file_share";
 
   -- Other specific functionality
-  "limits"; -- Enable bandwidth limiting for XMPP connections
   "server_contact_info"; -- Publish contact information for this service
   "announce"; -- Send announcement to all online users
-  --"welcome"; -- Welcome users who register accounts
+  "welcome"; -- Welcome users who register accounts
   "watchregistrations"; -- Alert admins of registrations
-  "proxy65"; -- Enables a file transfer proxy service which clients behind NAT can use
-  "bookmarks";
+  "s2s_bidi"; -- Bi-directional server-to-server (XEP-0288)
+  "tombstones"; -- Prevent registration of deleted accounts
 
   -- Custom
-  "cloud_notify";
-  "smacks";
-  "throttle_presence";
-  "filter_chatstates";
   "http_altconnect";
   "register_web";
-  "lastlog";
   "listusers";
   "block_registrations";
   "firewall",
@@ -113,14 +110,6 @@ contact_info = {
   support = { "xmpp:{admin_jid}" };
 }
 
--- https://prosody.im/security/advisory_20210512/
-gc = {
-  speed = 500;
-}
-
-c2s_stanza_size_limit = 256 * 1024
-s2s_stanza_size_limit = 512 * 1024
-
 limits = {
   c2s = {
     rate = "10kb/s";
@@ -128,13 +117,7 @@ limits = {
   };
   s2sin = {
     rate = "30kb/s";
-    burst = "2s";
-  }
-}
-
-ssl = {
-  options = {
-    no_renegotiation = true;
+    burst = "5s";
   }
 }
 
@@ -212,7 +195,8 @@ storage = "internal" -- Default is "internal"
 -- they are offline. This setting controls how long Prosody will keep
 -- messages in the archive before removing them.
 
---archive_expires_after = "1w" -- Remove archived messages after 1 week
+default_archive_policy = true
+archive_expires_after = "1w" -- Remove archived messages after 1 week
 
 -- You can also configure messages to be stored in-memory only. For more
 -- archiving options, see https://prosody.im/doc/modules/mod_mam
@@ -238,13 +222,7 @@ log = {
 certificates = "certs"
 https_certificate = "certs/{domain}.crt"
 
-cross_domain_bosh = true
-cross_domain_websocket = true
-
 http_default_host = "{domain}"
-http_file_share_size_limit = 16*1024*1024 -- 16 MiB
-http_file_share_daily_quota = 100*1024*1024 -- 100 MiB per day per user
-http_file_share_expires_after = 60 * 60 * 24 -- a day
 http_paths = {
   register_web = "/register";
   files = "/";
@@ -345,7 +323,7 @@ VirtualHost "{domain}"
 
 ---Set up a MUC (multi-user chat) room server on conference.example.com:
 Component "room.{domain}" "muc"
-  name = "{domain} Chatrooms"
+  name = "{domain} Chatroom"
   restrict_room_creation = "local"
   muc_tombstones = true
   modules_enabled = {
@@ -354,14 +332,14 @@ Component "room.{domain}" "muc"
     "vcard_muc",
   }
 
-Component "proxy.{domain}" "proxy65"
-  proxy65_address = "{domain}"
-  proxy65_acl = { "{domain}" }
-
 Component "upload.{domain}" "http_file_share"
   modules_enabled = {
     "acme_challenge_dir",
   }
+  http_file_share_size_limit = 50*1024*1024 -- 50 MiB
+  http_file_share_daily_quota = 200*1024*1024 -- 200 MiB per day per user
+  http_file_share_global_quota = 512*1024*1024 -- 5 GiB total
+  http_file_share_expires_after = 60 * 60 * 24 -- a day
 
 ---Set up an external component (default component port is 5347)
 --
