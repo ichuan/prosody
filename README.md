@@ -62,10 +62,9 @@ mkdir prosody
 # datetime when this server goes live
 SINCE="2018/9/2"
 
-# ports: 5223:legacy_ssl, 5280:http, 5281:https, 5000:proxy65, 5222:c2s, 5269:s2s
+# ports: 5223:legacy_ssl, 80:http, 443:https, 5000:proxy65, 5222:c2s, 5269:s2s
 docker run --restart always -itd --name iprosody \
-  -p 5223:5223 -p 80:5280 -p 5280:5280 -p 443:5281 -p 5281:5281 \
-  -p 5000:5000 -p 5222:5222 -p 5269:5269 \
+  -p 5222:5222 -p 5223:5223 -p 5269:5269 -p 80:80 -p 443:443 -p 5000:5000 \
   -v $PWD/prosody:/var/lib/prosody \
   -v acme.sh:/root/.acme.sh \
   -e ADMIN_JID=$JID -e DOMAIN=$DOMAIN -e SINCE=$SINCE \

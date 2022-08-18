@@ -229,6 +229,8 @@ http_paths = {
   register_web = "/register";
   files = "/";
 }
+http_ports = { 80 }
+https_ports = { 443 }
 -- Allow unencrypted HTTP connections
 http_interfaces = { "0.0.0.0", "::" }
 
