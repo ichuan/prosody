@@ -116,6 +116,7 @@ if test $# -eq 0; then
   echo -e "* soft nofile 500000\n* hard nofile 500000\nroot soft nofile 500000\nroot hard nofile 500000" > /etc/security/limits.conf 2>/dev/null
   echo "MAXFDS=500000" > /etc/default/prosody
   # prosody
+  setcap 'cap_net_bind_service=+ep' /usr/bin/prosody
   exec su -c "/usr/bin/prosody -F" --preserve-environment -s /bin/sh prosody
 else
   exec $@
