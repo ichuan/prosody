@@ -78,10 +78,12 @@ modules_enabled = {
   "announce"; -- Send announcement to all online users
   "welcome"; -- Welcome users who register accounts
   "watchregistrations"; -- Alert admins of registrations
+  "proxy65"; -- Enables a file transfer proxy service which clients behind NAT can use
   "s2s_bidi"; -- Bi-directional server-to-server (XEP-0288)
   "tombstones"; -- Prevent registration of deleted accounts
 
   -- Custom
+  "cloud_notify";
   "http_altconnect";
   "register_web";
   "listusers";
@@ -331,6 +333,10 @@ Component "room.{domain}" "muc"
     "muc_limits",
     "vcard_muc",
   }
+
+Component "proxy.{domain}" "proxy65"
+  proxy65_address = "{domain}"
+  proxy65_acl = { "{domain}" }
 
 Component "upload.{domain}" "http_file_share"
   modules_enabled = {
